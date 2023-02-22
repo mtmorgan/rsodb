@@ -1,0 +1,21 @@
+Package: rsodb
+Title: Interface to the Spatial Omics Database SODB
+Version: 0.0.0.90000
+Authors@R: 
+    person(
+        given = "Martin",
+        family = "Morgan",
+        role = c("aut", "cre"),
+        email = "mtmorgan.bioc@gmail.com",
+        comment = c(ORCID = "0000-0002-5874-8148")
+    )
+Description: The SODB (Spatial Omics DataBase) provides spatial omics
+    data sets and facilities for interactive manipulation. This
+    package provides an interface todiscover and download datsets
+    using R. Downloaded datasets are then readily imported to standard
+    data structures for downstream analysis.
+License: Artistic-2.0
+Imports: dplyr, glue, httr, jsonlite, rjsoncons, rlang, tools
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3

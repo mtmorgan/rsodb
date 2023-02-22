@@ -1,0 +1,105 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# rsodb
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+rsodb provides an *R* interface to the Spatial Omics database
+[SODB][]. The interface is rudimentary, allowing simple discovery and
+retrieval of datasets similar to the functionality of the Python
+client [pysodb][].
+
+[SODB]: https://gene.ai.tencent.com/SpatialOmics
+[pysodb]: https://pysodb.readthedocs.io/en/latest/#
+
+## Installation
+
+Install the development version of rsodb with:
+
+``` r
+if (!nzchar(system.file(package = "BiocManager")))
+    install.packages("BiocManager", repos = "https://cran.r-project.org")
+BiocManager::install("mtmorgan/rsodb")
+```
+
+## Example
+
+Load the rsodb and dplyr packages
+
+```{r example, message = FALSE}
+library(rsodb)
+library(dplyr)
+```
+
+Discover all experiments available
+
+```{r discover}
+db <- sodb()
+db
+```
+
+Filter to experiments of interest using 'standard' dplyr verbs, and
+download experiments to a local cache.
+
+```{r download}
+local_db <-
+    db |>
+    dplyr::filter(
+        Dataset == "liu2020high",
+        startsWith(Experiment, "E1")
+    ) |>
+    download(dry.run = FALSE)
+local_db
+```
+
+Experiments are **not** downloaded by default; use `dry.run = TRUE` to
+download the experiments. Experiments are downloaded only once and
+stored in a local cache, use `force = TRUE` to force experiments to be
+downloaded again.
+
+## Next steps
+
+Files from SODB are in 'AnnData' format, with extension `.h5ad`. These
+are easily read into *R* using the [zellkonverter][] package. Make sure it
+is installed and attached to the current *R* session (n.b., installing
+zellkonverter can be a 'heavy' operation if one is not using
+[Bioconductor][], because it depends on many core packages used in
+single-cell and spatial omics; the payoff is that one is now ready to
+perform advanced analysis single-cell and spatial analysis).
+
+[zellkonverter]: https://bioconductor.org/packages/zellkonverter
+[Bioconductor]: https://bioconductor.org
+
+```{r zellkonverter-install}
+if (!nzchar(system.file(package = "zellkonverter")))
+    BiocManager::install("zellkonverter")
+library(zellkonverter)
+```
+
+For example, load the first experiment from the 'liu2020high' dataset.
+
+```{r zellkonverter-load, message = FALSE}
+zellkonverter::readH5AD(local_db$Path[[1]], use_hdf5 = TRUE)
+```
+
+## sessionInfo
+
+The following summarizes software used to render this document.
+
+```{r session-info}
+sessioninfo::session_info()
+```
