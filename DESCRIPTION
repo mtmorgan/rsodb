@@ -1,6 +1,6 @@
 Package: rsodb
 Title: Interface to the Spatial Omics Database SODB
-Version: 0.0.0.90000
+Version: 0.0.0.9001
 Authors@R: 
     person(
         given = "Martin",

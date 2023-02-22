@@ -19,6 +19,8 @@ Install the development version of rsodb with:
 ``` r
 if (!nzchar(system.file(package = "BiocManager")))
     install.packages("BiocManager", repos = "https://cran.r-project.org")
+if (!nzchar(system.file(package = "remotes")))
+    BiocManager::install("remotes")
 BiocManager::install("mtmorgan/rsodb")
 ```
 
@@ -206,7 +208,7 @@ sessioninfo::session_info()
 #>  zellkonverter        * 1.9.0       2022-11-01 [2] Bioconductor
 #>  zlibbioc               1.45.0      2022-11-01 [2] Bioconductor
 #> 
-#>  [1] /private/var/folders/yn/gmsh_22s2c55v816r6d51fx1tnyl61/T/Rtmp1CcYpm/temp_libpath1716156d4c685
+#>  [1] /private/var/folders/yn/gmsh_22s2c55v816r6d51fx1tnyl61/T/Rtmp1CcYpm/temp_libpath171614c7874f
 #>  [2] /Users/ma38727/Library/R/arm64/4.3-3.17
 #>  [3] /Users/ma38727/bin/R-devel/library
 #> 

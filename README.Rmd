@@ -33,6 +33,8 @@ Install the development version of rsodb with:
 ``` r
 if (!nzchar(system.file(package = "BiocManager")))
     install.packages("BiocManager", repos = "https://cran.r-project.org")
+if (!nzchar(system.file(package = "remotes")))
+    BiocManager::install("remotes")
 BiocManager::install("mtmorgan/rsodb")
 ```
 
