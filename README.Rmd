@@ -47,31 +47,37 @@ library(rsodb)
 library(dplyr)
 ```
 
-Discover all experiments available
+Discover all available datasets.
 
 ```{r discover}
-db <- sodb()
-db
+ds <- datasets()
+ds
+ds |> glimpse()
 ```
 
-Filter to experiments of interest using 'standard' dplyr verbs, and
-download experiments to a local cache.
+Filter datasets to those of interest using 'standard' dplyr verbs, and
+use `local_dataset()` to retrieve experiment results to a local file
+cache.
 
 ```{r download}
-local_db <-
-    db |>
-    dplyr::filter(
-        Dataset == "liu2020high",
-        startsWith(Experiment, "E1")
-    ) |>
-    download(dry.run = FALSE)
-local_db
+local_dataset <-
+    ds |>
+    dplyr::filter(dataset == "liu2020high") |>
+    local_dataset(dry.run = FALSE)
+local_dataset
 ```
 
 Experiments are **not** downloaded by default; use `dry.run = TRUE` to
 download the experiments. Experiments are downloaded only once and
 stored in a local cache, use `force = TRUE` to force experiments to be
 downloaded again.
+
+Once downloaded, the cached location of individual files are available
+with `experiments()`
+
+```{r}
+experiments(local_dataset)
+```
 
 ## Next steps
 
@@ -95,7 +101,12 @@ library(zellkonverter)
 For example, load the first experiment from the 'liu2020high' dataset.
 
 ```{r zellkonverter-load, message = FALSE}
-zellkonverter::readH5AD(local_db$Path[[1]], use_hdf5 = TRUE)
+local_path <-
+    experiments(local_dataset) |>
+    ## select the first experiment
+    slice(1) |>
+    pull("path")
+zellkonverter::readH5AD(local_path, use_hdf5 = TRUE)
 ```
 
 ## sessionInfo
